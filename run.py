@@ -10,7 +10,8 @@ from transformers import Wav2Vec2ForCTC
 from transformers import TrainingArguments
 from transformers import Trainer
 from datasets import load_dataset
-
+import re
+import soundfile as sf
 
 
 
@@ -107,17 +108,12 @@ if __name__ == '__main__':
     timit = load_dataset('csv', data_files={'train': train_csv, 'test': test_csv})
     # print(timit)
 
-    import re
-    import soundfile as sf
-
     chars_to_ignore_regex = '[\,\?\.\!\-\;\:\"]'
     timit = timit.map(remove_special_characters)
 
 
     timit = timit.map(speech_file_to_array_fn,
                       remove_columns=timit.column_names["train"])
-
-
 
     tokenizer = Wav2Vec2CTCTokenizer("./vocab.json", unk_token="[UNK]", pad_token="[PAD]", word_delimiter_token="|")
     feature_extractor = Wav2Vec2FeatureExtractor(feature_size=1, sampling_rate=16000, padding_value=0.0,
