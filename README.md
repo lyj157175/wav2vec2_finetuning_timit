@@ -1,0 +1,2 @@
+# wav2vec2_finetuning_timit
+利用wav2vec2模型在timit数据集上进行finetuning，主要借助huggingface开源的transformers框架实现
